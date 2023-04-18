@@ -36,9 +36,7 @@ public class LoginServiceImpl implements ILoginService {
 
     public void resetHostRelationship(Host host) {
         Set<Login> logins = this.loginRepository.findAllByHostName(host.getName());
-        logins.stream().forEach(login -> {
-            login.setHost(null);
-        });
+        logins.forEach(login -> login.setHost(null));
 
         this.loginRepository.saveAll(logins);
     }
