@@ -13,9 +13,11 @@ public class Login {
     Long id;
 
     String loginName;
+
+    // TODO: Need to fix this relation - things don't look good here
     @ManyToOne
     @JsonBackReference
-    @JoinColumn(name = "host_id", nullable = false)
+    @JoinColumn(name = "host_id")
     private Host host;
 
     public Login() {

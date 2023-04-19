@@ -42,6 +42,7 @@ public class HostServiceImpl implements IHostService {
 
     @Override
     public void delete(Host host) {
+        // TODO: do I really need to do this ? 
         // remove bidirectional relationship before moving on
         this.resetBidirectionalRelationships(host);
         this.hostRepository.delete(host);
