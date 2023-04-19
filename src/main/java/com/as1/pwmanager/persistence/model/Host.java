@@ -1,5 +1,6 @@
 package com.as1.pwmanager.persistence.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
@@ -21,6 +22,7 @@ public class Host {
      * will fix the issue.
      */
     @OneToMany(mappedBy = "host", fetch = FetchType.EAGER)
+    @JsonBackReference
     private Set<Login> logins;
 
     public Host() {

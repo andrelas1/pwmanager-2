@@ -19,8 +19,8 @@ public class LoginServiceImpl implements ILoginService {
         this.loginRepository = loginRepository;
     }
 
-    public Login save(String loginName, Host host) {
-        Login login = new Login(loginName, host);
+    public Login save(String name, Host host) {
+        Login login = new Login(name, host);
         this.loginRepository.save(login);
 
         return login;
@@ -30,8 +30,8 @@ public class LoginServiceImpl implements ILoginService {
         return this.loginRepository.findAllByHostName(host.getName());
     }
 
-    public Optional<Login> getLoginById(Host host) {
-        return this.loginRepository.findById(host.getId());
+    public Optional<Login> getLoginById(Long id) {
+        return this.loginRepository.findById(id);
     }
 
     public void resetHostRelationship(Host host) {
@@ -39,5 +39,14 @@ public class LoginServiceImpl implements ILoginService {
         logins.forEach(login -> login.setHost(null));
 
         this.loginRepository.saveAll(logins);
+    }
+
+    @Override
+    public void deleteById(Long id) {
+        this.loginRepository.deleteById(id);
+    }
+
+    public Collection<Login> getAllLogins() {
+        return (Collection<Login>) this.loginRepository.findAll();
     }
 }

@@ -10,10 +10,15 @@ public interface ILoginService {
 
     Login save(String loginName, Host host);
 
+
+    Collection<Login> getAllLogins();
+
     Collection<Login> getAllLoginsByHost(Host host);
 
-    Optional<Login> getLoginById(Host host);
+    Optional<Login> getLoginById(Long id);
 
     void resetHostRelationship(Host host);
+
+    void deleteById(Long id);
 }
 
