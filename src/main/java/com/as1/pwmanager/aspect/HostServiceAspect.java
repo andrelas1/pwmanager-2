@@ -12,9 +12,9 @@ import org.springframework.stereotype.Component;
 public class HostServiceAspect {
 
     private static final Logger LOG = LoggerFactory.getLogger(HostServiceAspect.class);
-    
-    
-    @Before("execution(* com.as1.pwmanager.service.impl.HostServiceImpl.findById(Long))")
+
+
+    @Before("execution(* com.as1.pwmanager.service.host.impl.HostServiceImpl.findById(Long))")
     public void before(JoinPoint joinPoint) {
         LOG.info("Searching Project with Id {}", joinPoint.getArgs()[0]);
     }

@@ -1,4 +1,4 @@
-package com.as1.pwmanager.service;
+package com.as1.pwmanager.service.host;
 
 import com.as1.pwmanager.persistence.model.Host;
 

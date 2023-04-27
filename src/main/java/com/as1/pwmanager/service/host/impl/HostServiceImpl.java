@@ -1,9 +1,9 @@
-package com.as1.pwmanager.service.impl;
+package com.as1.pwmanager.service.host.impl;
 
 import com.as1.pwmanager.persistence.model.Host;
 import com.as1.pwmanager.persistence.repository.IHostRepository;
-import com.as1.pwmanager.service.IHostService;
-import com.as1.pwmanager.service.ILoginService;
+import com.as1.pwmanager.service.host.IHostService;
+import com.as1.pwmanager.service.login.ILoginService;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;

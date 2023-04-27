@@ -1,8 +1,8 @@
 package com.as1.pwmanager.web.controller;
 
 import com.as1.pwmanager.persistence.model.Login;
-import com.as1.pwmanager.service.impl.HostServiceImpl;
-import com.as1.pwmanager.service.impl.LoginServiceImpl;
+import com.as1.pwmanager.service.host.impl.HostServiceImpl;
+import com.as1.pwmanager.service.login.impl.LoginServiceImpl;
 import com.as1.pwmanager.web.dto.LoginDto;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
