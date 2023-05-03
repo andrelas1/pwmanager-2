@@ -25,7 +25,6 @@ public class PopulateDbService implements CommandLineRunner {
     }
 
     public void setupDbEntities() {
-        logger.info("whatevsssss");
         this.populateDb();
         Iterable<Host> hosts = this.hostService.findAll();
         for (Host host : hosts) {
