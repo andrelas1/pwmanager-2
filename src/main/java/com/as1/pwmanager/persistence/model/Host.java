@@ -20,8 +20,10 @@ public class Host {
     /**
      * FetchType helps with (bi)directional relations between models in Spring - it's like there is some race condition somehow and that
      * will fix the issue.
+     * <p>
+     * TODO: check the use of CascadeType.REMOVE with deletion -> better to not use FetchType.EAGER
      */
-    @OneToMany(mappedBy = "host", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "host", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     @JsonBackReference
     private Set<Login> logins;
 

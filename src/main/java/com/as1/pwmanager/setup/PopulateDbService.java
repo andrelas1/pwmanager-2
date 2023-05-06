@@ -1,8 +1,8 @@
 package com.as1.pwmanager.setup;
 
 import com.as1.pwmanager.persistence.model.Host;
-import com.as1.pwmanager.service.host.impl.HostServiceImpl;
-import com.as1.pwmanager.service.login.impl.LoginServiceImpl;
+import com.as1.pwmanager.service.host.IHostService;
+import com.as1.pwmanager.service.login.ILoginService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -15,16 +15,17 @@ public class PopulateDbService implements CommandLineRunner {
     @Value("${pwmanager.populatedb}")
     private boolean shouldPopulateDb;
 
-    private HostServiceImpl hostService;
-    private LoginServiceImpl loginService;
+    private IHostService hostService;
+    private ILoginService loginService;
     private Logger logger = LoggerFactory.getLogger(PopulateDbService.class);
 
-    public PopulateDbService(HostServiceImpl hostService, LoginServiceImpl loginService) {
+    public PopulateDbService(IHostService hostService, ILoginService loginService) {
         this.hostService = hostService;
         this.loginService = loginService;
     }
 
     public void setupDbEntities() {
+        logger.info("---------------- START: SETUP DB -------------------");
         this.populateDb();
         Iterable<Host> hosts = this.hostService.findAll();
         for (Host host : hosts) {
@@ -33,6 +34,7 @@ public class PopulateDbService implements CommandLineRunner {
             logger.info("HOST DATE CREATED {}", host.getDateCreated());
             logger.info("HOST LOGINS {}", host.getLogins());
         }
+        logger.info("---------------- END: SETUP DB -------------------");
     }
 
     private Host generateHost(String name) {

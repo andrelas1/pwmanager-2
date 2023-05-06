@@ -15,7 +15,7 @@ public class Login {
     String loginName;
 
     // TODO: Need to fix this relation - things don't look good here
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JsonBackReference
     @JoinColumn(name = "host_id")
     private Host host;
