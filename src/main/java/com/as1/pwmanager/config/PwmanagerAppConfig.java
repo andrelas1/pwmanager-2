@@ -14,9 +14,6 @@ import org.springframework.context.annotation.Profile;
 @ComponentScan(basePackages = {"com.as1.pwmanager.persistence", "com.as1.pwmanager.service", "com.as1.pwmanager.web"})
 public class PwmanagerAppConfig {
 
-    @Value("{spring.profiles.active}")
-    private String profile;
-
     private HostServiceImpl hostService;
     private LoginServiceImpl loginService;
 
