@@ -8,8 +8,9 @@ import java.util.Optional;
 
 public interface ILoginService {
 
-    Login save(String loginName, Host host);
+    Login save(String loginName, String password, Host host);
 
+    String hashPassword(String password);
 
     Collection<Login> getAllLogins();
 

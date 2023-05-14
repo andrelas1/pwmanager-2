@@ -3,12 +3,16 @@ package com.as1.pwmanager.web.dto;
 import com.as1.pwmanager.persistence.model.Host;
 import com.as1.pwmanager.persistence.model.Login;
 import jakarta.annotation.Nullable;
+import org.springframework.lang.NonNull;
 
 public class LoginDto {
     String name;
     @Nullable
     Long id;
     Host host;
+
+    @NonNull
+    String password;
 
     public LoginDto() {
     }
@@ -17,6 +21,7 @@ public class LoginDto {
         this.name = login.getLoginName();
         this.id = login.getId();
         this.host = login.getHost();
+        this.password = login.getPassword();
     }
 
     public String getName() {
@@ -25,6 +30,14 @@ public class LoginDto {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public Long getId() {

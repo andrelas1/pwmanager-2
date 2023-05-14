@@ -10,9 +10,9 @@ public class Login {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
+    private Long id;
 
-    String loginName;
+    private String loginName;
 
     // TODO: Need to fix this relation - things don't look good here
     @ManyToOne
@@ -20,11 +20,14 @@ public class Login {
     @JoinColumn(name = "host_id")
     private Host host;
 
+    private String password;
+
     public Login() {
     }
 
-    public Login(String loginName, Host host) {
+    public Login(String loginName, String password, Host host) {
         this.loginName = loginName;
+        this.password = password;
         this.host = host;
     }
 
@@ -72,5 +75,13 @@ public class Login {
 
     public void setHost(Host host) {
         this.host = host;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }
