@@ -43,7 +43,7 @@ public class LoginController {
     Login createLogin(@RequestBody LoginDto loginDto) {
         Login login = this.convertToLogin(loginDto);
         this.hostService.findById(loginDto.getHost().getId()).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Login with not-found host"));
-        return this.loginService.save(loginDto.getName(), loginDto.getHost());
+        return this.loginService.save(loginDto.getName(), loginDto.getPassword(), loginDto.getHost());
     }
 
     @DeleteMapping("/{id}")
@@ -59,6 +59,6 @@ public class LoginController {
     }
 
     private Login convertToLogin(LoginDto loginDto) {
-        return new Login(loginDto.getName(), loginDto.getHost());
+        return new Login(loginDto.getName(), "", loginDto.getHost());
     }
 }

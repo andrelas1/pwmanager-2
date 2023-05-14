@@ -8,23 +8,25 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+
+import java.security.SecureRandom;
 
 
 @Configuration
 @ComponentScan(basePackages = {"com.as1.pwmanager.persistence", "com.as1.pwmanager.service", "com.as1.pwmanager.web"})
 public class PwmanagerAppConfig {
 
-    private HostServiceImpl hostService;
-    private LoginServiceImpl loginService;
-
-    public PwmanagerAppConfig(HostServiceImpl hostService, LoginServiceImpl loginService) {
-        this.hostService = hostService;
-        this.loginService = loginService;
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
     }
+    
 
     @Bean
     @Profile("local")
     PopulateDbService populateDbService() {
-        return new PopulateDbService(this.hostService, this.loginService);
+        return new PopulateDbService();
     }
 }
