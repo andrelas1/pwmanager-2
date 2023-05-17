@@ -1,6 +1,5 @@
 package com.as1.pwmanager.config;
 
-import com.as1.pwmanager.service.host.impl.HostServiceImpl;
 import com.as1.pwmanager.service.login.impl.LoginServiceImpl;
 import com.as1.pwmanager.setup.PopulateDbService;
 import org.springframework.beans.factory.annotation.Value;

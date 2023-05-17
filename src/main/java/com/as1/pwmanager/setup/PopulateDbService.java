@@ -1,15 +1,13 @@
 package com.as1.pwmanager.setup;
 
-import com.as1.pwmanager.persistence.model.Host;
-import com.as1.pwmanager.service.host.impl.HostServiceImpl;
+import com.as1.pwmanager.persistence.model.Owner;
 import com.as1.pwmanager.service.login.impl.LoginServiceImpl;
-import jakarta.annotation.PostConstruct;
+import com.as1.pwmanager.service.user.OwnerService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
-import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 
@@ -19,7 +17,7 @@ public class PopulateDbService implements CommandLineRunner {
     private boolean shouldPopulateDb;
 
     @Autowired
-    private HostServiceImpl hostService;
+    OwnerService ownerService;
 
     @Autowired
     private LoginServiceImpl loginService;
@@ -27,28 +25,29 @@ public class PopulateDbService implements CommandLineRunner {
 
     public void setupDbEntities() {
         this.populateDb();
-        Iterable<Host> hosts = this.hostService.findAll();
-        for (Host host : hosts) {
-            logger.info("HOST ID {}", host.getId());
-            logger.info("HOST NAME {}", host.getName());
-            logger.info("HOST DATE CREATED {}", host.getDateCreated());
-            logger.info("HOST LOGINS {}", host.getLogins());
+        Iterable<Owner> users = this.ownerService.getAllUsers();
+        for (Owner owner : users) {
+            logger.info("USER ID {}", owner.getId());
+            logger.info("USER USERNAME {}", owner.getUsername());
+            logger.info("USER DATE CREATED {}", owner.getDateCreated());
+            logger.info("USER LOGINS {}", owner.getLogins());
         }
     }
 
-    private Host generateHost(String name) {
-        Host host = new Host(name, LocalDate.now());
-        return host;
+    private Owner generateUser(String username, String password) {
+        Owner owner = new Owner(username, password, LocalDate.now());
+        return owner;
     }
 
     private void populateDb() {
-        Host host1 = this.hostService.save(this.generateHost("theguardian.com"));
-        Host host2 = this.hostService.save(this.generateHost("nrc.nl"));
-        Host host3 = this.hostService.save(this.generateHost("globo.com"));
+        Owner owner1 = this.ownerService.save("user@user.com", "123456");
+        Owner owner2 = this.ownerService.save("another_user@user.com", "abcdef");
+        Owner owner3 = this.ownerService.save("one_more_user@user.com", "aabbcc");
 
-        loginService.save("email@email.com", loginService.hashPassword("123456"), host1);
-        loginService.save("email@email.com", loginService.hashPassword("password"), host2);
-        loginService.save("email@email.com", loginService.hashPassword("112233"), host3);
+
+        loginService.save("email@email.com", loginService.hashPassword("123456"), owner1);
+        loginService.save("email@email.com", loginService.hashPassword("abcdef"), owner2);
+        loginService.save("email@email.com", loginService.hashPassword("aabbcc"), owner3);
     }
 
     @Override

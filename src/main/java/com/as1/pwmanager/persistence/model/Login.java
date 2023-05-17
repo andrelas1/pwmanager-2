@@ -17,18 +17,18 @@ public class Login {
     // TODO: Need to fix this relation - things don't look good here
     @ManyToOne
     @JsonBackReference
-    @JoinColumn(name = "host_id")
-    private Host host;
+    @JoinColumn(name = "owner_id")
+    private Owner owner;
 
     private String password;
 
     public Login() {
     }
 
-    public Login(String loginName, String password, Host host) {
+    public Login(String loginName, String password, Owner owner) {
         this.loginName = loginName;
         this.password = password;
-        this.host = host;
+        this.owner = owner;
     }
 
     @Override
@@ -36,7 +36,6 @@ public class Login {
         return "Login{" +
                 "id=" + id +
                 ", loginName='" + loginName + '\'' +
-                ", host=" + host +
                 '}';
     }
 
@@ -53,6 +52,14 @@ public class Login {
         return Objects.hash(id, loginName);
     }
 
+    public Owner getUser() {
+        return owner;
+    }
+
+    public void setUser(Owner owner) {
+        this.owner = owner;
+    }
+
     public Long getId() {
         return id;
     }
@@ -67,14 +74,6 @@ public class Login {
 
     public void setLoginName(String loginName) {
         this.loginName = loginName;
-    }
-
-    public Host getHost() {
-        return host;
-    }
-
-    public void setHost(Host host) {
-        this.host = host;
     }
 
     public String getPassword() {

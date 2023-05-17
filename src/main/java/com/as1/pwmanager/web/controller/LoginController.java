@@ -1,26 +1,28 @@
 package com.as1.pwmanager.web.controller;
 
 import com.as1.pwmanager.persistence.model.Login;
-import com.as1.pwmanager.service.host.impl.HostServiceImpl;
-import com.as1.pwmanager.service.login.impl.LoginServiceImpl;
+import com.as1.pwmanager.persistence.model.Owner;
+import com.as1.pwmanager.service.login.LoginService;
+import com.as1.pwmanager.service.user.OwnerService;
 import com.as1.pwmanager.web.dto.LoginDto;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Collection;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/logins")
 public class LoginController {
 
-    private LoginServiceImpl loginService;
-    private HostServiceImpl hostService;
+    private LoginService loginService;
+    private OwnerService ownerService;
 
-    public LoginController(LoginServiceImpl loginService, HostServiceImpl hostService) {
+    public LoginController(LoginService loginService, OwnerService ownerService) {
         this.loginService = loginService;
-        this.hostService = hostService;
+        this.ownerService = ownerService;
     }
 
     @GetMapping
@@ -42,8 +44,8 @@ public class LoginController {
     @PostMapping
     Login createLogin(@RequestBody LoginDto loginDto) {
         Login login = this.convertToLogin(loginDto);
-        this.hostService.findById(loginDto.getHost().getId()).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Login with not-found host"));
-        return this.loginService.save(loginDto.getName(), loginDto.getPassword(), loginDto.getHost());
+        Owner owner = this.ownerService.findById(loginDto.getUserId()).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Login with not-found user"));
+        return this.loginService.save(loginDto.getName(), loginDto.getPassword(), owner);
     }
 
     @DeleteMapping("/{id}")
@@ -59,6 +61,7 @@ public class LoginController {
     }
 
     private Login convertToLogin(LoginDto loginDto) {
-        return new Login(loginDto.getName(), "", loginDto.getHost());
+        Owner owner = this.ownerService.findById(loginDto.getUserId()).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
+        return new Login(loginDto.getName(), loginDto.getPassword(), owner);
     }
 }

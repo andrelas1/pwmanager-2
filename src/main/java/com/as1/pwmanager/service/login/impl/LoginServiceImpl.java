@@ -1,9 +1,9 @@
 package com.as1.pwmanager.service.login.impl;
 
-import com.as1.pwmanager.persistence.model.Host;
+import com.as1.pwmanager.persistence.model.Owner;
 import com.as1.pwmanager.persistence.model.Login;
-import com.as1.pwmanager.persistence.repository.ILoginRepository;
-import com.as1.pwmanager.service.login.ILoginService;
+import com.as1.pwmanager.persistence.repository.LoginRepository;
+import com.as1.pwmanager.service.login.LoginService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -13,22 +13,21 @@ import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.util.Collection;
 import java.util.Optional;
-import java.util.Set;
 
 @Service
-public class LoginServiceImpl implements ILoginService {
+public class LoginServiceImpl implements LoginService {
 
-    private ILoginRepository loginRepository;
+    private LoginRepository loginRepository;
     private PasswordEncoder passwordEncoder;
 
-    public LoginServiceImpl(ILoginRepository loginRepository, PasswordEncoder passwordEncoder) {
+    public LoginServiceImpl(LoginRepository loginRepository, PasswordEncoder passwordEncoder) {
         this.loginRepository = loginRepository;
         this.passwordEncoder = passwordEncoder;
     }
 
-    public Login save(String name, String password, Host host) {
-        String encodedPw = this.passwordEncoder.encode(password);
-        Login login = new Login(name, encodedPw, host);
+    public Login save(String loginName, String loginPassword, Owner owner) {
+        String encodedPw = this.passwordEncoder.encode(loginPassword);
+        Login login = new Login(loginName, encodedPw, owner);
 
         this.loginRepository.save(login);
 
@@ -40,19 +39,12 @@ public class LoginServiceImpl implements ILoginService {
         return password;
     }
 
-    public Collection<Login> getAllLoginsByHost(Host host) {
-        return this.loginRepository.findAllByHostName(host.getName());
-    }
-
     public Optional<Login> getLoginById(Long id) {
         return this.loginRepository.findById(id);
     }
 
-    public void resetHostRelationship(Host host) {
-        Set<Login> logins = this.loginRepository.findAllByHostName(host.getName());
-        logins.forEach(login -> login.setHost(null));
+    public void resetHostRelationship(Owner owner) {
 
-        this.loginRepository.saveAll(logins);
     }
 
     @Override
@@ -61,7 +53,15 @@ public class LoginServiceImpl implements ILoginService {
     }
 
     public Collection<Login> getAllLogins() {
-        return (Collection<Login>) this.loginRepository.findAll();
+
+        Collection<Login> logins = (Collection<Login>) this.loginRepository.findAll();
+
+        return logins;
+    }
+
+    @Override
+    public Collection<Login> getAllLoginsByHostName(Owner owner, String hostname) {
+        return null;
     }
 
     private byte[] genRandomSalt() {
